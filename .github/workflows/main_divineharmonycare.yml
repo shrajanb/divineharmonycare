@@ -34,7 +34,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/shrajanb/divineharmonycare:${{ github.sha }}
+          tags: |
+            ghcr.io/shrajanb/divineharmonycare:${{ github.sha }}
+            ghcr.io/shrajanb/divineharmonycare:latest
           file: ./Dockerfile
 
   deploy:
