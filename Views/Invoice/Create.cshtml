@@ -1,0 +1,297 @@
+@model InvoiceModel
+@{
+    ViewData["Title"] = "Create Invoice";
+}
+
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="script-font">Create Invoice</h1>
+        <p class="lead">Invoice for Caregiving Services</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <form asp-action="Create" method="post" id="invoiceForm" class="dhc-form">
+                    @Html.AntiForgeryToken()
+
+                    <!-- Invoice Header -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-file-invoice me-2"></i>
+                            <h3>Invoice Details</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="invoice-company-header mb-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="brand-icon me-3"><i class="fas fa-spa"></i></div>
+                                    <div>
+                                        <h4 class="script-font mb-0">Divine Harmony Care</h4>
+                                        <small class="text-muted">3290 Kulay Way SW, Edmonton, AB T6W 5B5 | (587) 710-9284 | info@divine-harmony.ca</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="ClientName" class="form-label"></label>
+                                    <input asp-for="ClientName" class="form-control" placeholder="Client full name" />
+                                    <span asp-validation-for="ClientName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="InvoiceNumber" class="form-label"></label>
+                                    <input asp-for="InvoiceNumber" class="form-control" readonly />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="ServiceAddress" class="form-label"></label>
+                                    <input asp-for="ServiceAddress" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label asp-for="InvoiceDate" class="form-label"></label>
+                                    <input asp-for="InvoiceDate" class="form-control" type="date" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label asp-for="DueDate" class="form-label"></label>
+                                    <input asp-for="DueDate" class="form-control" type="date" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Phone" class="form-label"></label>
+                                    <input asp-for="Phone" class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" class="form-control" type="email" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="CaregiverName" class="form-label"></label>
+                                    <input asp-for="CaregiverName" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Line Items -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-list-ol me-2"></i>
+                            <h3>Service Line Items</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="table-responsive">
+                                <table class="table dhc-table" id="lineItemsTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:140px">Date</th>
+                                            <th>Service Description</th>
+                                            <th style="width:100px">Hours</th>
+                                            <th style="width:110px">Rate ($)</th>
+                                            <th style="width:110px">Amount ($)</th>
+                                            <th style="width:50px"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lineItemsBody">
+                                        <tr class="line-item-row" data-index="0">
+                                            <td><input type="date" name="LineItems[0].Date" class="form-control form-control-sm" value="@DateTime.Today.ToString("yyyy-MM-dd")" /></td>
+                                            <td><input type="text" name="LineItems[0].ServiceDescription" class="form-control form-control-sm" placeholder="e.g., Personal care assistance" /></td>
+                                            <td><input type="number" name="LineItems[0].Hours" class="form-control form-control-sm line-hours" step="0.5" min="0" value="0" /></td>
+                                            <td><input type="number" name="LineItems[0].Rate" class="form-control form-control-sm line-rate" step="0.01" min="0" value="0" /></td>
+                                            <td><input type="text" class="form-control form-control-sm line-amount" readonly value="0.00" /></td>
+                                            <td><button type="button" class="btn btn-sm btn-outline-danger remove-line"><i class="fas fa-times"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <button type="button" class="btn btn-sm btn-outline-purple" id="addLineItem">
+                                                    <i class="fas fa-plus me-1"></i>Add Line Item
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <div class="row justify-content-end mt-3">
+                                <div class="col-md-4">
+                                    <div class="totals-box">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Subtotal:</span>
+                                            <span id="subtotalDisplay">$0.00</span>
+                                            <input type="hidden" asp-for="Subtotal" id="subtotalInput" />
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Tax:</span>
+                                            <div style="width:100px">
+                                                <input type="number" asp-for="Tax" class="form-control form-control-sm" step="0.01" min="0" id="taxInput" />
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="d-flex justify-content-between fw-bold fs-5">
+                                            <span>Total Due:</span>
+                                            <span id="totalDisplay">$0.00</span>
+                                            <input type="hidden" asp-for="TotalDue" id="totalInput" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment & Signature -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-credit-card me-2"></i>
+                            <h3>Payment & Authorization</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+                                    <select asp-for="PaymentMethod" class="form-select">
+                                        <option value="">Select method...</option>
+                                        <option value="CreditCard">Credit Card (Visa / MasterCard)</option>
+                                        <option value="ETransfer">E-Transfer</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Cheque">Cheque</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="SignatureDate" class="form-label">Date</label>
+                                    <input asp-for="SignatureDate" class="form-control" type="date" />
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="Notes" class="form-label">Notes / Terms</label>
+                                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Payment due within 30 days. Late payments may be subject to fees."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Authorized Signature</label>
+                                    <div class="signature-pad-wrapper">
+                                        <canvas id="invoiceSignatureCanvas" class="signature-canvas"></canvas>
+                                        <input type="hidden" asp-for="SignatureData" id="invoiceSignatureData" />
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" id="clearInvoiceSignature">
+                                            <i class="fas fa-eraser me-1"></i>Clear Signature
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4 mb-5">
+                        <button type="submit" class="btn btn-gold btn-lg px-5">
+                            <i class="fas fa-file-invoice-dollar me-2"></i>Create Invoice
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Invoice Signature Pad
+        (function() {
+            const canvas = document.getElementById('invoiceSignatureCanvas');
+            const ctx = canvas.getContext('2d');
+            const hiddenInput = document.getElementById('invoiceSignatureData');
+            let drawing = false, lastX = 0, lastY = 0;
+
+            function resizeCanvas() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 4;
+                canvas.height = 150;
+                ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+                ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches ? e.touches[0] : e;
+                return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+            }
+
+            canvas.addEventListener('mousedown', e => { e.preventDefault(); drawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; });
+            canvas.addEventListener('mousemove', e => { if (!drawing) return; e.preventDefault(); const p = getPos(e); ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke(); lastX = p.x; lastY = p.y; });
+            canvas.addEventListener('mouseup', () => { drawing = false; hiddenInput.value = canvas.toDataURL('image/png'); });
+            canvas.addEventListener('mouseleave', () => { drawing = false; });
+            canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; });
+            canvas.addEventListener('touchmove', e => { if (!drawing) return; e.preventDefault(); const p = getPos(e); ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke(); lastX = p.x; lastY = p.y; });
+            canvas.addEventListener('touchend', () => { drawing = false; hiddenInput.value = canvas.toDataURL('image/png'); });
+
+            document.getElementById('clearInvoiceSignature').addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                hiddenInput.value = '';
+            });
+        })();
+
+        // Line Items
+        let lineIndex = 1;
+
+        function recalculate() {
+            let subtotal = 0;
+            document.querySelectorAll('.line-item-row').forEach(row => {
+                const hours = parseFloat(row.querySelector('.line-hours')?.value) || 0;
+                const rate = parseFloat(row.querySelector('.line-rate')?.value) || 0;
+                const amount = hours * rate;
+                const amountField = row.querySelector('.line-amount');
+                if (amountField) amountField.value = amount.toFixed(2);
+                subtotal += amount;
+            });
+            document.getElementById('subtotalDisplay').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('subtotalInput').value = subtotal.toFixed(2);
+            const tax = parseFloat(document.getElementById('taxInput').value) || 0;
+            const total = subtotal + tax;
+            document.getElementById('totalDisplay').textContent = '$' + total.toFixed(2);
+            document.getElementById('totalInput').value = total.toFixed(2);
+        }
+
+        document.getElementById('addLineItem').addEventListener('click', function() {
+            const tbody = document.getElementById('lineItemsBody');
+            const row = document.createElement('tr');
+            row.className = 'line-item-row';
+            row.dataset.index = lineIndex;
+            row.innerHTML = `
+                <td><input type="date" name="LineItems[${lineIndex}].Date" class="form-control form-control-sm" value="${new Date().toISOString().split('T')[0]}" /></td>
+                <td><input type="text" name="LineItems[${lineIndex}].ServiceDescription" class="form-control form-control-sm" placeholder="Service description" /></td>
+                <td><input type="number" name="LineItems[${lineIndex}].Hours" class="form-control form-control-sm line-hours" step="0.5" min="0" value="0" /></td>
+                <td><input type="number" name="LineItems[${lineIndex}].Rate" class="form-control form-control-sm line-rate" step="0.01" min="0" value="0" /></td>
+                <td><input type="text" class="form-control form-control-sm line-amount" readonly value="0.00" /></td>
+                <td><button type="button" class="btn btn-sm btn-outline-danger remove-line"><i class="fas fa-times"></i></button></td>
+            `;
+            tbody.appendChild(row);
+            lineIndex++;
+            bindRowEvents(row);
+        });
+
+        function bindRowEvents(row) {
+            row.querySelector('.line-hours')?.addEventListener('input', recalculate);
+            row.querySelector('.line-rate')?.addEventListener('input', recalculate);
+            row.querySelector('.remove-line')?.addEventListener('click', function() {
+                row.remove();
+                reindexRows();
+                recalculate();
+            });
+        }
+
+        function reindexRows() {
+            document.querySelectorAll('.line-item-row').forEach((row, idx) => {
+                row.dataset.index = idx;
+                row.querySelectorAll('input[name]').forEach(input => {
+                    input.name = input.name.replace(/\[\d+\]/, `[${idx}]`);
+                });
+            });
+            lineIndex = document.querySelectorAll('.line-item-row').length;
+        }
+
+        // Bind initial row
+        document.querySelectorAll('.line-item-row').forEach(bindRowEvents);
+        document.getElementById('taxInput').addEventListener('input', recalculate);
+    </script>
+}

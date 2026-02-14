@@ -1,0 +1,444 @@
+@model PatientIntakeModel
+@{
+    ViewData["Title"] = "Patient Intake Form";
+}
+
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="script-font">Patient Intake Form</h1>
+        <p class="lead">Please complete all sections below. Your information is kept confidential.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <form asp-action="Form" method="post" id="intakeForm" class="dhc-form">
+                    @Html.AntiForgeryToken()
+
+                    <!-- Section 1: Patient Identification -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-user-circle me-2"></i>
+                            <h3>1. Patient Identification</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="FullName" class="form-label"></label>
+                                    <input asp-for="FullName" class="form-control" placeholder="Enter full legal name" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="DateOfBirth" class="form-label"></label>
+                                    <input asp-for="DateOfBirth" class="form-control" type="date" />
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="HealthNumber" class="form-label"></label>
+                                    <input asp-for="HealthNumber" class="form-control" placeholder="Alberta PHN" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="PrimaryPhone" class="form-label"></label>
+                                    <input asp-for="PrimaryPhone" class="form-control" placeholder="(xxx) xxx-xxxx" />
+                                    <span asp-validation-for="PrimaryPhone" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="CurrentAddress" class="form-label"></label>
+                                    <input asp-for="CurrentAddress" class="form-control" placeholder="Street, City, Province, Postal Code" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="EmailAddress" class="form-label"></label>
+                                    <input asp-for="EmailAddress" class="form-control" type="email" placeholder="email@example.com" />
+                                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Responsible Party -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-user-friends me-2"></i>
+                            <h3>2. Responsible Party / Legal Representative</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="RepresentativeName" class="form-label"></label>
+                                    <input asp-for="RepresentativeName" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="RepresentativeRelationship" class="form-label"></label>
+                                    <input asp-for="RepresentativeRelationship" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="RepresentativePhone" class="form-label"></label>
+                                    <input asp-for="RepresentativePhone" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="RepresentativeEmail" class="form-label"></label>
+                                    <input asp-for="RepresentativeEmail" class="form-control" type="email" />
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="LegalAuthority" class="form-label">Legal Authority</label>
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" asp-for="LegalAuthority" value="PowerOfAttorney" id="laPOA" />
+                                            <label class="form-check-label" for="laPOA">Power of Attorney</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" asp-for="LegalAuthority" value="Guardian" id="laGuardian" />
+                                            <label class="form-check-label" for="laGuardian">Guardian</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" asp-for="LegalAuthority" value="Trusteeship" id="laTrust" />
+                                            <label class="form-check-label" for="laTrust">Trusteeship</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" asp-for="LegalAuthority" value="None" id="laNone" />
+                                            <label class="form-check-label" for="laNone">None</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Medical & Clinical -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-heartbeat me-2"></i>
+                            <h3>3. Medical & Clinical Information</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="PrimaryPhysician" class="form-label"></label>
+                                    <input asp-for="PrimaryPhysician" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="PhysicianPhone" class="form-label"></label>
+                                    <input asp-for="PhysicianPhone" class="form-control" />
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="PrimaryDiagnoses" class="form-label"></label>
+                                    <textarea asp-for="PrimaryDiagnoses" class="form-control" rows="2"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="KnownAllergies" class="form-label"></label>
+                                    <textarea asp-for="KnownAllergies" class="form-control" rows="2"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="DietaryRestrictions" class="form-label"></label>
+                                    <textarea asp-for="DietaryRestrictions" class="form-control" rows="2"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="mt-3 mb-2">Legal Medical Documents</h6>
+                                    <div class="d-flex gap-4 flex-wrap">
+                                        <div class="form-check form-switch">
+                                            <input asp-for="PersonalDirective" class="form-check-input" />
+                                            <label asp-for="PersonalDirective" class="form-check-label">Personal Directive on file</label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input asp-for="GoalsOfCareDesignation" class="form-check-input" />
+                                            <label asp-for="GoalsOfCareDesignation" class="form-check-label">Goals of Care Designation (GCD)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="mt-3 mb-2">Medications</h6>
+                                    <div class="form-check form-switch mb-2">
+                                        <input asp-for="RequiresMedicationAssistance" class="form-check-input" id="medAssistToggle" />
+                                        <label asp-for="RequiresMedicationAssistance" class="form-check-label">Requires Medication Assistance</label>
+                                    </div>
+                                    <div id="medMethodSection" style="display:none;">
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" asp-for="MedicationMethod" value="Reminders" id="medReminders" />
+                                                <label class="form-check-label" for="medReminders">Reminders</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" asp-for="MedicationMethod" value="PhysicalAdministration" id="medPhysical" />
+                                                <label class="form-check-label" for="medPhysical">Physical Administration (by authorized staff)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Care Needs Assessment -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-clipboard-check me-2"></i>
+                            <h3>4. Care Needs Assessment (ADLs & IADLs)</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <h6 class="mb-3"><i class="fas fa-hand-holding-heart me-2 text-gold"></i>Personal Care (ADLs)</h6>
+                            <div class="row g-2 mb-4">
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="BathingShowering" class="form-check-input" /><label asp-for="BathingShowering" class="form-check-label">Bathing/Showering</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="DressingGrooming" class="form-check-input" /><label asp-for="DressingGrooming" class="form-check-label">Dressing/Grooming</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="OralHygiene" class="form-check-input" /><label asp-for="OralHygiene" class="form-check-label">Oral Hygiene</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="ToiletingIncontinenceCare" class="form-check-input" /><label asp-for="ToiletingIncontinenceCare" class="form-check-label">Toileting/Incontinence Care</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="Transfers" class="form-check-input" /><label asp-for="Transfers" class="form-check-label">Transfers</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="RangeOfMotionExercises" class="form-check-input" /><label asp-for="RangeOfMotionExercises" class="form-check-label">Range of Motion Exercises</label></div>
+                                </div>
+                            </div>
+
+                            <h6 class="mb-3"><i class="fas fa-home me-2 text-gold"></i>Household & Companionship (IADLs)</h6>
+                            <div class="row g-2 mb-4">
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="MealPreparation" class="form-check-input" /><label asp-for="MealPreparation" class="form-check-label">Meal Preparation</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="LightHousekeeping" class="form-check-input" /><label asp-for="LightHousekeeping" class="form-check-label">Light Housekeeping</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="Laundry" class="form-check-input" /><label asp-for="Laundry" class="form-check-label">Laundry</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="TransportationAppointments" class="form-check-input" /><label asp-for="TransportationAppointments" class="form-check-label">Transportation/Appointments</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="CompanionshipSocialization" class="form-check-input" /><label asp-for="CompanionshipSocialization" class="form-check-label">Companionship/Socialization</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="PetCareAssistance" class="form-check-input" /><label asp-for="PetCareAssistance" class="form-check-label">Pet Care Assistance</label></div>
+                                </div>
+                            </div>
+
+                            <h6 class="mb-3"><i class="fas fa-brain me-2 text-gold"></i>Cognitive & Safety</h6>
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="DementiaAlzheimersCare" class="form-check-input" /><label asp-for="DementiaAlzheimersCare" class="form-check-label">Dementia/Alzheimer's Care</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="FallRisk" class="form-check-input" /><label asp-for="FallRisk" class="form-check-label">Fall Risk</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="FallHistory" class="form-check-input" /><label asp-for="FallHistory" class="form-check-label">History of Falls</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="WanderingRisk" class="form-check-input" /><label asp-for="WanderingRisk" class="form-check-label">Wandering Risk</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="Requires24HourSupervision" class="form-check-input" /><label asp-for="Requires24HourSupervision" class="form-check-label">Requires 24-Hour Supervision</label></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check"><input asp-for="BehaviorManagement" class="form-check-input" /><label asp-for="BehaviorManagement" class="form-check-label">Behavior Management</label></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Scheduling -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <h3>5. Scheduling & Logistics</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="RequestedStartDate" class="form-label"></label>
+                                    <input asp-for="RequestedStartDate" class="form-control" type="date" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="DesiredSchedule" class="form-label">Desired Schedule</label>
+                                    <div class="d-flex gap-3 mt-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" asp-for="DesiredSchedule" value="LiveIn" id="schedLiveIn" />
+                                            <label class="form-check-label" for="schedLiveIn">Live-In</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" asp-for="DesiredSchedule" value="Hourly" id="schedHourly" />
+                                            <label class="form-check-label" for="schedHourly">Hourly</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="SpecificHoursNeeded" class="form-label"></label>
+                                    <input asp-for="SpecificHoursNeeded" class="form-control" placeholder="e.g., 8am - 4pm" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="DaysPerWeek" class="form-label"></label>
+                                    <select asp-for="DaysPerWeek" class="form-select">
+                                        <option value="">Select...</option>
+                                        @for (int i = 1; i <= 7; i++)
+                                        {
+                                            <option value="@i">@i day(s)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 6: Home Environment -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-house-user me-2"></i>
+                            <h3>6. Home Environment & Safety</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-check form-switch mb-2">
+                                        <input asp-for="PetsInHome" class="form-check-input" id="petsToggle" />
+                                        <label asp-for="PetsInHome" class="form-check-label">Pets in the home?</label>
+                                    </div>
+                                    <div id="petDetailsSection" style="display:none;">
+                                        <label asp-for="PetDetails" class="form-label">If yes, please specify</label>
+                                        <input asp-for="PetDetails" class="form-control" placeholder="Type, breed, temperament..." />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check form-switch">
+                                        <input asp-for="SmokingHousehold" class="form-check-input" />
+                                        <label asp-for="SmokingHousehold" class="form-check-label">Smoking household?</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="MedicalEquipment" class="form-label"></label>
+                                    <textarea asp-for="MedicalEquipment" class="form-control" rows="2" placeholder="e.g., oxygen, Hoyer lift, hospital bed"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Consent & Signature -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-file-signature me-2"></i>
+                            <h3>7. Consent and Privacy Statement (PIPA Compliance)</h3>
+                        </div>
+                        <div class="form-section-body">
+                            <div class="consent-text mb-4">
+                                <p>By signing below, I consent to the collection, use, and disclosure of the patient's personal and health information by Divine Harmony Care for the purpose of providing caregiver services. Information will be handled in accordance with the <strong>Alberta Personal Information Protection Act (PIPA)</strong>.</p>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="ConsentPrintedName" class="form-label">Printed Name</label>
+                                    <input asp-for="ConsentPrintedName" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="ConsentDate" class="form-label">Date</label>
+                                    <input asp-for="ConsentDate" class="form-control" type="date" />
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Patient/Responsible Party Signature</label>
+                                    <div class="signature-pad-wrapper">
+                                        <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+                                        <input type="hidden" asp-for="SignatureData" id="signatureData" />
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" id="clearSignature">
+                                            <i class="fas fa-eraser me-1"></i>Clear Signature
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="text-center mt-4 mb-5">
+                        <button type="submit" class="btn btn-gold btn-lg px-5" id="submitBtn">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Intake Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Signature Pad
+        (function() {
+            const canvas = document.getElementById('signatureCanvas');
+            const ctx = canvas.getContext('2d');
+            const hiddenInput = document.getElementById('signatureData');
+            let drawing = false;
+            let lastX = 0, lastY = 0;
+
+            function resizeCanvas() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 4;
+                canvas.height = 150;
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches ? e.touches[0] : e;
+                return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+            }
+
+            function startDraw(e) {
+                e.preventDefault();
+                drawing = true;
+                const pos = getPos(e);
+                lastX = pos.x; lastY = pos.y;
+            }
+
+            function draw(e) {
+                if (!drawing) return;
+                e.preventDefault();
+                const pos = getPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                lastX = pos.x; lastY = pos.y;
+            }
+
+            function stopDraw() {
+                drawing = false;
+                hiddenInput.value = canvas.toDataURL('image/png');
+            }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDraw);
+            canvas.addEventListener('mouseleave', stopDraw);
+            canvas.addEventListener('touchstart', startDraw);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDraw);
+
+            document.getElementById('clearSignature').addEventListener('click', function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                hiddenInput.value = '';
+            });
+        })();
+
+        // Toggle sections
+        document.getElementById('medAssistToggle').addEventListener('change', function() {
+            document.getElementById('medMethodSection').style.display = this.checked ? 'block' : 'none';
+        });
+        document.getElementById('petsToggle').addEventListener('change', function() {
+            document.getElementById('petDetailsSection').style.display = this.checked ? 'block' : 'none';
+        });
+    </script>
+}

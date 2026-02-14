@@ -1,0 +1,81 @@
+@model IntakeSearchModel
+@{
+    ViewData["Title"] = "Search Intake Records";
+}
+
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="script-font">Search Intake Records</h1>
+        <p class="lead">Find patient intake forms by name, ID, phone, or email.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">
+                <form method="get" class="d-flex gap-2">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text dhc-input-icon"><i class="fas fa-search"></i></span>
+                        <input type="text" name="q" value="@Model?.SearchTerm" class="form-control" placeholder="Search by name, ID, phone, or email..." />
+                    </div>
+                    <button type="submit" class="btn btn-gold">Search</button>
+                </form>
+            </div>
+        </div>
+
+        @if (Model?.Results.Any() == true)
+        {
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <p class="text-muted mb-3">Found <strong>@Model.Results.Count</strong> record(s)</p>
+                    <div class="table-responsive">
+                        <table class="table dhc-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Submitted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var intake in Model.Results)
+                                {
+                                    <tr>
+                                        <td><code>@intake.Id</code></td>
+                                        <td><strong>@intake.FullName</strong></td>
+                                        <td>@intake.PrimaryPhone</td>
+                                        <td>@intake.EmailAddress</td>
+                                        <td>@intake.SubmittedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                                        <td>
+                                            <a asp-action="View_" asp-route-id="@intake.Id" class="btn btn-sm btn-outline-purple">
+                                                <i class="fas fa-eye me-1"></i>View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(Model?.SearchTerm))
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No records found matching "<strong>@Model.SearchTerm</strong>"</p>
+            </div>
+        }
+        else if (Model?.Results.Count == 0)
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No intake records yet. <a asp-action="Form">Submit the first one</a>.</p>
+            </div>
+        }
+    </div>
+</section>

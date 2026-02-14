@@ -1,0 +1,142 @@
+@model InvoiceModel
+@{
+    ViewData["Title"] = "View Invoice";
+}
+
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="script-font">Invoice</h1>
+        <p class="lead">@Model?.InvoiceNumber</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="dhc-card invoice-view-card">
+                    <!-- Company Header -->
+                    <div class="invoice-print-header mb-4 pb-3 border-bottom">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="brand-icon me-3"><i class="fas fa-spa"></i></div>
+                                    <div>
+                                        <h3 class="script-font mb-0">Divine Harmony Care</h3>
+                                        <small class="text-muted">3290 Kulay Way SW, Edmonton, AB T6W 5B5</small><br />
+                                        <small class="text-muted">(587) 710-9284 | info@divine-harmony.ca</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-md-end">
+                                <h2 class="text-gold mb-0">INVOICE</h2>
+                                <p class="mb-0"><strong>@Model?.InvoiceNumber</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Bill To:</h6>
+                            <p class="mb-1"><strong>@Model?.ClientName</strong></p>
+                            <p class="mb-1">@Model?.ServiceAddress</p>
+                            <p class="mb-1">@Model?.Phone</p>
+                            <p class="mb-0">@Model?.Email</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <table class="table table-sm table-borderless ms-auto" style="width:auto;">
+                                <tr><td class="text-muted">Invoice Date:</td><td><strong>@Model?.InvoiceDate.ToString("yyyy-MM-dd")</strong></td></tr>
+                                <tr><td class="text-muted">Due Date:</td><td><strong>@Model?.DueDate.ToString("yyyy-MM-dd")</strong></td></tr>
+                                <tr><td class="text-muted">Caregiver:</td><td><strong>@Model?.CaregiverName</strong></td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Line Items Table -->
+                    <div class="table-responsive mb-4">
+                        <table class="table dhc-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Service Description</th>
+                                    <th class="text-end">Hours</th>
+                                    <th class="text-end">Rate</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model?.LineItems != null)
+                                {
+                                    @foreach (var item in Model.LineItems)
+                                    {
+                                        <tr>
+                                            <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                                            <td>@item.ServiceDescription</td>
+                                            <td class="text-end">@item.Hours.ToString("0.0")</td>
+                                            <td class="text-end">$@item.Rate.ToString("0.00")</td>
+                                            <td class="text-end">$@item.Amount.ToString("0.00")</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="row justify-content-end">
+                        <div class="col-md-4">
+                            <div class="totals-box">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal:</span>
+                                    <span>$@Model?.Subtotal.ToString("0.00")</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Tax:</span>
+                                    <span>$@Model?.Tax.ToString("0.00")</span>
+                                </div>
+                                <hr />
+                                <div class="d-flex justify-content-between fw-bold fs-5 text-gold">
+                                    <span>Total Due:</span>
+                                    <span>$@Model?.TotalDue.ToString("0.00")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment & Notes -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p class="text-muted small"><strong>Payment Method:</strong> @Model?.PaymentMethod</p>
+                            @if (!string.IsNullOrEmpty(Model?.Notes))
+                            {
+                                <p class="text-muted small"><strong>Notes:</strong> @Model.Notes</p>
+                            }
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            @if (!string.IsNullOrEmpty(Model?.SignatureData))
+                            {
+                                <p class="text-muted small mb-1">Authorized Signature:</p>
+                                <img src="@Model.SignatureData" alt="Signature" class="border rounded" style="max-height:80px;" />
+                                <p class="text-muted small mt-1">Date: @Model.SignatureDate?.ToString("yyyy-MM-dd")</p>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <a asp-action="Search" class="btn btn-outline-purple me-2">
+                            <i class="fas fa-search me-1"></i>Search Invoices
+                        </a>
+                        <a asp-action="Create" class="btn btn-gold">
+                            <i class="fas fa-plus me-1"></i>New Invoice
+                        </a>
+                        <button class="btn btn-outline-secondary ms-2" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

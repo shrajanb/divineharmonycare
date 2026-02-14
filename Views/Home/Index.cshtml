@@ -1,0 +1,194 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-logo mb-4">
+                    <div class="logo-circle">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h1 class="hero-brand">Divine Harmony</h1>
+                    <span class="hero-brand-sub">CARE</span>
+                </div>
+                <h2 class="hero-tagline">Where Compassion Meets Care</h2>
+                <p class="hero-subtitle">Supporting seniors and individuals with disabilities with dignity, respect and heartfelt service.</p>
+                <div class="hero-buttons mt-4">
+                    <a asp-controller="Intake" asp-action="Form" class="btn btn-gold btn-lg me-3">
+                        <i class="fas fa-calendar-check me-2"></i>Book Your Free Care Consultation Today
+                    </a>
+                    <a href="#services" class="btn btn-outline-light btn-lg">
+                        Explore Our Care Services <i class="fas fa-chevron-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="section-title script-font">About Divine Harmony Care</h2>
+                <p>At Divine Harmony Care, we believe every individual deserves to age and live with dignity, safety, and compassion.</p>
+                <p>Our trained caregivers provide professional, reliable, and heartfelt support for seniors and individuals living with disabilities. Whether your loved one needs daily assistance or occasional support, we are here to serve with kindness and respect.</p>
+                <p>We understand that bringing a new person into your home requires trust, and we are committed to earning yours through professionalism, empathy, and consistent care.</p>
+                <a asp-controller="Home" asp-action="About" class="btn btn-outline-purple mt-3">
+                    Learn More About Us <i class="fas fa-chevron-right ms-2"></i>
+                </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="about-image-wrapper">
+                    <img src="~/images/homepage-reference.png" alt="Caregiver with patient" class="img-fluid rounded-4 shadow-lg" style="max-height: 400px; object-fit: cover;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="services-section py-5">
+    <div class="container">
+        <h2 class="section-title script-font text-center mb-5">Personalized Care Designed Around Your Needs</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h4>Personal Care Assistance</h4>
+                    <ul>
+                        <li>Bathing and hygiene support</li>
+                        <li>Dressing and grooming</li>
+                        <li>Mobility assistance</li>
+                        <li>Toileting and incontinence care</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h4>Daily Living Support</h4>
+                    <ul>
+                        <li>Light housekeeping</li>
+                        <li>Grocery shopping & errands</li>
+                        <li>Meal preparation</li>
+                        <li>Laundry and linen changes</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-wheelchair"></i>
+                    </div>
+                    <h4>Disability Support Services</h4>
+                    <ul>
+                        <li>Assistance with mobility devices</li>
+                        <li>Help with medication needs</li>
+                        <li>Specialized care plans</li>
+                        <li>Range of motion exercises</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4>Companionship Care</h4>
+                    <ul>
+                        <li>Friendly conversation</li>
+                        <li>Emotional support</li>
+                        <li>Accompaniment to appointments</li>
+                        <li>Engaging in games and activities</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h4>Respite Care for Families</h4>
+                    <ul>
+                        <li>Short-term caregiver relief</li>
+                        <li>Flexible scheduling</li>
+                        <li>Peace of mind for families</li>
+                        <li>Professional backup support</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Safety & Logistics</h4>
+                    <ul>
+                        <li>Medication reminders</li>
+                        <li>Transportation to appointments</li>
+                        <li>Safety checks</li>
+                        <li>Emergency response support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Promise Section -->
+<section class="promise-section py-5">
+    <div class="container">
+        <h2 class="section-title script-font text-center mb-5">Our Promise to You</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-3">
+                <div class="promise-card text-center">
+                    <div class="promise-icon"><i class="fas fa-user-check"></i></div>
+                    <h5>Background Checked</h5>
+                    <p>All caretakers undergo rigorous criminal background and reference checks.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="promise-card text-center">
+                    <div class="promise-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h5>Trained Staff</h5>
+                    <p>Trained in emergency response, infection control, and specialized care.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="promise-card text-center">
+                    <div class="promise-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h5>Insured & Bonded</h5>
+                    <p>Fully covered for liability and property protection.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="promise-card text-center">
+                    <div class="promise-icon"><i class="fas fa-heart"></i></div>
+                    <h5>Compassionate</h5>
+                    <p>We earn your trust through professionalism, empathy, and consistent care.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+    <div class="container text-center">
+        <h2 class="script-font text-white mb-3">Ready to Experience Compassionate Care?</h2>
+        <p class="text-white-50 mb-4">Let us create a personalized care plan for you or your loved one.</p>
+        <a asp-controller="Intake" asp-action="Form" class="btn btn-gold btn-lg">
+            <i class="fas fa-file-medical me-2"></i>Start Your Patient Intake Form
+        </a>
+    </div>
+</section>

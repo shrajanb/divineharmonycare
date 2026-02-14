@@ -1,0 +1,22 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+.vs/
+*.DotSettings.user
+
+## OS
+.DS_Store
+Thumbs.db
+
+## IDE
+.idea/
+.vscode/
+*.swp
+
+## Data files (local dev only - these are demo submissions)
+# wwwroot/data/intakes/*.json
+# wwwroot/data/invoices/*.json

@@ -1,0 +1,107 @@
+@model PatientIntakeModel
+@{
+    ViewData["Title"] = "Intake Confirmation";
+}
+
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="script-font">Intake Form Submitted</h1>
+        <p class="lead">Reference ID: <strong>@Model?.Id</strong></p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="dhc-card confirmation-card">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h3>Thank you, @Model?.FullName!</h3>
+                        <p class="text-muted">Your patient intake form has been received and saved.</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Patient Info -->
+                        <div class="col-md-6">
+                            <div class="info-block">
+                                <h5><i class="fas fa-user me-2 text-gold"></i>Patient Information</h5>
+                                <table class="table table-sm">
+                                    <tr><td class="fw-bold">Name</td><td>@Model?.FullName</td></tr>
+                                    <tr><td class="fw-bold">DOB</td><td>@Model?.DateOfBirth?.ToString("yyyy-MM-dd")</td></tr>
+                                    <tr><td class="fw-bold">PHN</td><td>@Model?.HealthNumber</td></tr>
+                                    <tr><td class="fw-bold">Phone</td><td>@Model?.PrimaryPhone</td></tr>
+                                    <tr><td class="fw-bold">Email</td><td>@Model?.EmailAddress</td></tr>
+                                    <tr><td class="fw-bold">Address</td><td>@Model?.CurrentAddress</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Representative -->
+                        <div class="col-md-6">
+                            <div class="info-block">
+                                <h5><i class="fas fa-user-friends me-2 text-gold"></i>Representative</h5>
+                                <table class="table table-sm">
+                                    <tr><td class="fw-bold">Name</td><td>@Model?.RepresentativeName</td></tr>
+                                    <tr><td class="fw-bold">Relationship</td><td>@Model?.RepresentativeRelationship</td></tr>
+                                    <tr><td class="fw-bold">Phone</td><td>@Model?.RepresentativePhone</td></tr>
+                                    <tr><td class="fw-bold">Legal Authority</td><td>@Model?.LegalAuthority</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Medical -->
+                        <div class="col-md-6">
+                            <div class="info-block">
+                                <h5><i class="fas fa-heartbeat me-2 text-gold"></i>Medical Information</h5>
+                                <table class="table table-sm">
+                                    <tr><td class="fw-bold">Physician</td><td>@Model?.PrimaryPhysician</td></tr>
+                                    <tr><td class="fw-bold">Diagnoses</td><td>@Model?.PrimaryDiagnoses</td></tr>
+                                    <tr><td class="fw-bold">Allergies</td><td>@Model?.KnownAllergies</td></tr>
+                                    <tr><td class="fw-bold">Dietary</td><td>@Model?.DietaryRestrictions</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Schedule -->
+                        <div class="col-md-6">
+                            <div class="info-block">
+                                <h5><i class="fas fa-calendar me-2 text-gold"></i>Schedule</h5>
+                                <table class="table table-sm">
+                                    <tr><td class="fw-bold">Start Date</td><td>@Model?.RequestedStartDate?.ToString("yyyy-MM-dd")</td></tr>
+                                    <tr><td class="fw-bold">Schedule</td><td>@Model?.DesiredSchedule</td></tr>
+                                    <tr><td class="fw-bold">Hours</td><td>@Model?.SpecificHoursNeeded</td></tr>
+                                    <tr><td class="fw-bold">Days/Week</td><td>@Model?.DaysPerWeek</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Signature -->
+                        @if (!string.IsNullOrEmpty(Model?.SignatureData))
+                        {
+                            <div class="col-12">
+                                <div class="info-block">
+                                    <h5><i class="fas fa-signature me-2 text-gold"></i>Signature</h5>
+                                    <img src="@Model.SignatureData" alt="Patient Signature" class="img-fluid border rounded" style="max-height:100px;" />
+                                    <p class="mt-2 text-muted small">Signed by @Model.ConsentPrintedName on @Model.ConsentDate?.ToString("yyyy-MM-dd")</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a asp-action="Search" class="btn btn-outline-purple me-2">
+                            <i class="fas fa-search me-1"></i>Search Records
+                        </a>
+                        <a asp-action="Form" class="btn btn-gold">
+                            <i class="fas fa-plus me-1"></i>New Intake Form
+                        </a>
+                        <button class="btn btn-outline-secondary ms-2" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

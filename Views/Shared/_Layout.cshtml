@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Divine Harmony Care</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light dhc-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="brand-icon me-2">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Divine Harmony</span>
+                    <span class="brand-tagline">CARE</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="About">
+                            <i class="fas fa-heart me-1"></i> About Us
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-clipboard-list me-1"></i> Forms
+                        </a>
+                        <ul class="dropdown-menu dhc-dropdown">
+                            <li><a class="dropdown-item" asp-controller="Intake" asp-action="Form"><i class="fas fa-file-medical me-2"></i>Patient Intake Form</a></li>
+                            <li><a class="dropdown-item" asp-controller="Intake" asp-action="Search"><i class="fas fa-search me-2"></i>Search Intake Records</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-controller="Invoice" asp-action="Create"><i class="fas fa-file-invoice-dollar me-2"></i>Create Invoice</a></li>
+                            <li><a class="dropdown-item" asp-controller="Invoice" asp-action="Search"><i class="fas fa-search-dollar me-2"></i>Search Invoices</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-consultation ms-2" asp-controller="Intake" asp-action="Form">
+                            <i class="fas fa-calendar-check me-1"></i> Book Consultation
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="container mt-3">
+                <div class="alert alert-success alert-dismissible fade show dhc-alert" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        }
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="dhc-footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="footer-brand mb-3">
+                            <div class="brand-icon me-2">
+                                <i class="fas fa-spa"></i>
+                            </div>
+                            <div class="brand-text">
+                                <span class="brand-name">Divine Harmony</span>
+                                <span class="brand-tagline">CARE</span>
+                            </div>
+                        </div>
+                        <p class="footer-desc">Where Compassion Meets Care. Supporting seniors and individuals with disabilities with dignity, respect, and heartfelt service.</p>
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <h5 class="footer-heading">Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                            <li><a asp-controller="Intake" asp-action="Form">Patient Intake Form</a></li>
+                            <li><a asp-controller="Invoice" asp-action="Create">Create Invoice</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2">
+                        <h5 class="footer-heading">Services</h5>
+                        <ul class="footer-links">
+                            <li><a href="#">Personal Care</a></li>
+                            <li><a href="#">Daily Living</a></li>
+                            <li><a href="#">Companionship</a></li>
+                            <li><a href="#">Respite Care</a></li>
+                            <li><a href="#">Disability Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3">
+                        <h5 class="footer-heading">Contact Us</h5>
+                        <ul class="footer-contact">
+                            <li><i class="fas fa-map-marker-alt me-2"></i>3290 Kulay Way SW, Edmonton, AB T6W 5B5</li>
+                            <li><i class="fas fa-phone me-2"></i>(587) 710-9284</li>
+                            <li><i class="fas fa-envelope me-2"></i>info@divine-harmony.ca</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container text-center">
+                <p>&copy; @DateTime.Now.Year Divine Harmony Care. All Rights Reserved. | Serving Edmonton & Area with Love and Compassion</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
